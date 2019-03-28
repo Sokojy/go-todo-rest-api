@@ -7,9 +7,8 @@ import (
 	"net/http"
 )
 
-// CreateAccount is used to create a new user account
-var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
-
+// CreateUser is used to create a new user
+var CreateUser = func(w http.ResponseWriter, r *http.Request) {
 	user := &models.User{}
 	err := json.NewDecoder(r.Body).Decode(user) //decode the request body into struct and failed if any error occur
 	if err != nil {
@@ -17,14 +16,13 @@ var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := user.Create()
+	resp := user.Create() //Create account
+	w.Header().Add("Content-type", "application/json")
 	u.Respond(w, resp)
 }
 
-// Authenticate will verify the provided email address and
-// password are correct.
+// Authenticate is used to authenticate user
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
-
 	user := &models.User{}
 	err := json.NewDecoder(r.Body).Decode(user) //decode the request body into struct and failed if any error occur
 	if err != nil {
@@ -32,6 +30,6 @@ var Authenticate = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := models.Authenticate(user.Email, user.Password)
+	resp := models.Login(user.Email, user.Password)
 	u.Respond(w, resp)
 }
