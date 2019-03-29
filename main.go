@@ -16,7 +16,10 @@ func main() {
 
 	router.HandleFunc("/api/user/new", controllers.CreateUser).Methods("POST")
 	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
-	router.HandleFunc("/api/task/new", controllers.CreateTask).Methods("GET")
+	router.HandleFunc("/api/task/new", controllers.CreateTask).Methods("POST")
+	router.HandleFunc("/api/task/{id:[0-9]+}/update", controllers.UpdateTask).Methods("POST")
+	router.HandleFunc("/api/task/{id:[0-9]+}/delete", controllers.DeleteTask).Methods("POST")
+	router.HandleFunc("/api/tasks", controllers.GetTasks).Methods("GET")
 
 	port := os.Getenv("PORT") //Get port from .env file
 	if port == "" {
